@@ -14,4 +14,8 @@
 //= require bootstrap
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
+//= require vue
+//= require vue-resource
+//= require vue.drag-and-drop
+
+Vue.http.headers.common['X-CSRF-Token'] = $('[name="csrf-token"]').attr('content')

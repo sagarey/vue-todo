@@ -4,28 +4,27 @@
       <div class="page-header">
         <h1>Todos <small></h1>
       </div>
-      <p id="notice"><%= notice %></p>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-4 col-md-offset-4">
+    <div class="col-md-4 col-md-offset-4" id="todos">
       <div class="panel panel-default">
-        <div class="panel-body">
-          <%= link_to 'New Todo', new_todo_path %></small>
-        </div>
         <ul class="list-group">
-        <% @todos.each do |todo| %>
-          <li class="list-group-item">
-            <%= todo.body %>
+          <li class="list-group-item" v-for="todo in todos" id="{{ $index }}" v-drag-and-drop>
+            <span v-if="todo.status == 'active'">{{ todo.body }}</span>
+            <del v-else>{{ todo.body }}</del>
             <span class="pull-right">
-              <%= link_to 'Show', todo %>
-              <%= link_to 'Edit', edit_todo_path(todo) %>
-              <%= link_to 'Destroy', todo, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <span class="glyphicon glyphicon-check text-warning" v-if="todo.status == 'completed'" @click="active(todo)"></span>
+              <span class="glyphicon glyphicon-unchecked text-success" v-if="todo.status == 'active'" @click="completed(todo)"></span>
+              <span class="glyphicon glyphicon-remove text-danger" @click="destroy(todo)"></span>
             </span>
           </li>
-        <% end %>
         </ul>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="something to do" v-model="new_todo_body" @keyup.enter="create">
       </div>
     </div>
   </div>
 </div>
+<%= javascript_include_tag params[:controller] %>
